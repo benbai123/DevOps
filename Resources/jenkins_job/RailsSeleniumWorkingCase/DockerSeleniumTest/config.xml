@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>cases</name>
+          <description>test case name, quoted with single quote, separated with comma</description>
+          <defaultValue>[&apos;simple_test&apos;]</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>browsers</name>
+          <description># usage:
+# [{&apos;url&apos; =&gt; &apos;remote url&apos;, &apos;port&apos; =&gt; &apos;port number&apos;, &apos;browser&apos; =&gt; &apos;browser name&apos;, &apos;caps&apos; =&gt; capabilities_hash}, ...]
+
+# url: required, url of remote selnium server
+# port: optional, default &apos;4444&apos;
+# browser: optional, default &apos;firefox&apos;, also supports &apos;internet_explorer&apos;, &apos;chrome&apos;, &apos;opera&apos;
+# caps: optional, will override desired capabilities if provided
+
+# e.g.
+# [{&apos;url&apos; =&gt; &apos;192.168.31.169&apos;}]
+# 
+# [{&apos;url&apos; =&gt; &apos;192.168.31.169&apos;}, {&apos;url&apos; =&gt; &apos;192.168.31.169&apos;, &apos;port&apos; =&gt; &apos;5555&apos;, &apos;browser&apos; =&gt; &apos;opera&apos;}]
+# 
+# [{&apos;url&apos; =&gt; &apos;192.168.31.169&apos;,&apos;browser&apos; =&gt; &apos;chrome&apos;}, {&apos;url&apos; =&gt; &apos;192.168.31.169&apos;, &apos;port&apos; =&gt; &apos;5555&apos;, &apos;browser&apos; =&gt; &apos;opera&apos;}]
+# 
+# [{&apos;url&apos; =&gt; &apos;192.168.31.169&apos;,&apos;browser&apos; =&gt; &apos;chrome&apos;, &apos;caps&apos; =&gt; {&apos;chromeOptions&apos; =&gt; {&apos;args&apos; =&gt; [&apos;--ignore-certificate-errors&apos;, &apos;--disable-popup-blocking&apos;, &apos;--disable-translate&apos;, &apos;--test-type&apos;]}}}, {&apos;url&apos; =&gt; &apos;192.168.31.169&apos;, &apos;browser&apos; =&gt; &apos;internet_explorer&apos;}]</description>
+          <defaultValue>[{&apos;url&apos; =&gt; &apos;192.168.31.169&apos;}, {&apos;url&apos; =&gt; &apos;192.168.31.169&apos;, &apos;browser&apos; =&gt; &apos;internet_explorer&apos;}]</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>pageurl</name>
+          <description>domain url including port of web server</description>
+          <defaultValue>http://192.168.31.169:8080</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>skipRealDiff</name>
+          <description>whether skip diff process, just compare binary file (will be much faster)
+any value will be faise except &apos;true&apos;</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command># go to folder of test rails app
+cd /RubyOnRails/Practice/RubyOnRails/Test/Selenium/WorkinCase/SeleniumTest
+
+# run test case, all images of visual testing will be stored in test/visualTesting/Jenkins
+failedmark=$BUILD_NUMBER skipRealDiff=$skipRealDiff task_filename=$BUILD_TAG runner=&quot;Jenkins&quot; pageurl=$pageurl cases=$cases browsers=$browsers rake test:fileset
+
+# chmod so other user can manage images created by jenkins
+chmod -R 777 test/visualTesting/Jenkins
+
+# mark build as failed if the file test/failed/$BUILD_NUMBER.txt exists
+if [ -f test/failed/$BUILD_NUMBER.txt ]; then
+    rm -rf test/failed/$BUILD_NUMBER.txt
+    exit -1
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
