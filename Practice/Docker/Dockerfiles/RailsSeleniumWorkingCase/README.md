@@ -53,6 +53,8 @@ Run a just built image as below.
 docker run -d -p 3000:3000 -p 8080:8080 --name RSWC rclt
 ```
 
+Please refer to [Docker run reference](https://docs.docker.com/reference/run/) for more information.
+
 Start/Stop an exists container as below.
 
 **NOTE:** Use start/stop to run original container, if you use docker run again then it will run a new container that does not include any change made by previous action. 
