@@ -1,4 +1,10 @@
 
+### Demo Video
+
+[Rails Selenium Working Case with Docker](https://www.youtube.com/watch?v=m1jiMEN-8BQ)
+
+The demo video contains every steps below.
+
 ### Install Docker
 
 ```shell
@@ -36,6 +42,8 @@ You probably will see lots of red text from terminal but it just things happend 
 
 Run a just built image as below.
 
+**NOTE:** To test remote Windows machine you will need to prepare Selenium Standalone Server as described in [Run With Remote WebDriver](https://github.com/benbai123/RubyOnRails/tree/master/Practice/RubyOnRails/Test/Selenium/WorkinCase/SeleniumTest#run-with-remote-webdriver)
+
 ```shell
 # run docker image
 # -d : Run container in the background
@@ -47,7 +55,7 @@ docker run -d -p 3000:3000 -p 8080:8080 --name RSWC rclt
 
 Start/Stop an exists container as below.
 
-**NOTE:** Use start/stop to run original container, if you use docker run again then it will run a new container and any change made by previous action will be disappeared. 
+**NOTE:** Use start/stop to run original container, if you use docker run again then it will run a new container that does not include any change made by previous action. 
 
 ```shell
 docker start RSWC
