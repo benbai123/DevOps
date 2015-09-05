@@ -20,11 +20,17 @@ service docker start
 
 ### Build image
 
+Edit Dockerfile, update hostsip and default_remote_ip as needed, then
+
 ```shell
 # the rclt is image name specified by yourself
 # change it to any other name if needed
 docker build -t rclt .
 ```
+
+This will take about 20 minutes.
+
+You probably will see lots of red text from terminal but it just things happend in Docker and should be fine.
 
 ### Run docker image
 
