@@ -60,6 +60,36 @@ Please refer to [Docker run reference](https://docs.docker.com/reference/run/) f
 **NOTE:** Use start/stop to run original container, if you use docker run again then it will run a new container that does not include any change made by previous action. 
 
 ```shell
+# start a stopped container
 docker start RSWC
+# stop a running container
 docker stop RSWC
+```
+
+If the container is not started as expected, you can attach the terminal to see console output from container as below:
+
+```shell
+# start container and attach terminal
+docker start RSWC && docker attach RSWC
+```
+
+One possible issue is [A server is already running](http://stackoverflow.com/questions/15072846/server-is-already-running-in-rails) caused by rails server is not stopped properly when stopping docker container, to solve this issue, you can kill server.pid as below
+
+```shell
+# start container and delete the file server.pid
+docker start RSWC && docker exec RSWC rm -rf /RubyOnRails/Practice/RubyOnRails/Test/Selenium/WorkinCase/SeleniumTest/tmp/pids/server.pid
+```
+
+To prevent this issue, I guess you can modify CMD in Dockerfile as below
+
+```shell
+## code before add commands
+# ...
+RUN echo "echo Init_Docker_For_Selenium_Test" >> cmds
+RUN echo "/etc/init.d/jenkins start" >> cmds
+# always remove server.pid before start rails server
+RUN echo "rm -rf /RubyOnRails/Practice/RubyOnRails/Test/Selenium/WorkinCase/SeleniumTest/tmp/pids/server.pid" >> cmds
+RUN echo "bin/bundle exec rails s" >> cmds
+## code after
+# ...
 ```
