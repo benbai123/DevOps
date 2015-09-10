@@ -61,7 +61,9 @@ cd /RubyOnRails/Practice/RubyOnRails/Test/Selenium/WorkinCase/SeleniumTest
 failedmark=$BUILD_NUMBER skipRealDiff=$skipRealDiff task_filename=$BUILD_TAG runner=&quot;Jenkins&quot; pageurl=$pageurl cases=$cases browsers=$browsers rake test:fileset
 
 # chmod so other user can manage images created by jenkins
-chmod -R 777 test/visualTesting/Jenkins
+# no need for docker since docker will run container with root by default
+# and always can manage images
+# chmod -R 777 test/visualTesting/Jenkins
 
 # mark build as failed if the file test/failed/$BUILD_NUMBER.txt exists
 if [ -f test/failed/$BUILD_NUMBER.txt ]; then

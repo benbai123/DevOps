@@ -119,8 +119,7 @@ RUN echo "#!/bin/bash" >> cmds
 #         copy test cases to test/integration folder, etc
 ##
 RUN echo "echo Init_Docker_For_Selenium_Test" >> cmds
-RUN echo "sudo /etc/init.d/jenkins start" >> cmds
-RUN echo "sudo su jenkins" >> cmds
+RUN echo "/etc/init.d/jenkins start" >> cmds
 RUN echo "bin/bundle exec rails s" >> cmds
 
 RUN chmod +x cmds
