@@ -66,6 +66,8 @@ docker start RSWC
 docker stop RSWC
 ```
 
+### Trouble Shooting and Possible Issue
+
 If the container is not started as expected, you can attach the terminal to see console output from container as below:
 
 ```shell
